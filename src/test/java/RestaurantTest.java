@@ -3,6 +3,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +38,29 @@ class RestaurantTest {
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void item_added_to_menu_should_return_the_price_sum_of_the_items_selected() {
+        setRestaurantInformation();
+        restaurant.addToMenu("Grill Chicken", 349);
+        List<String> selectedItemList = Arrays.asList("Sweet corn soup", "Vegetable lasagne", "Grill Chicken");
+
+        int totalPrice = restaurant.getSelectedItemPrice(selectedItemList);
+
+        assertEquals(737, totalPrice);
+    }
+
+    @Test
+    public void item_not_added_to_menu_should_return_the_price_0() {
+        LocalTime openingTime = LocalTime.parse("10:30:00");
+        LocalTime closingTime = LocalTime.parse("22:00:00");
+        restaurant = new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        List<String> selectedItemList = Collections.<String>emptyList();;
+
+        int totalPrice = restaurant.getSelectedItemPrice(selectedItemList);
+
+        assertEquals(0, totalPrice);
+    }
 
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
